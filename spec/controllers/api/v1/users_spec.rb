@@ -1,24 +1,53 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Users', type: :request do
-  describe 'POST /api/v1/users' do
-    let(:user) { create(:user) }
+  let!(:users) { create_list(:user, 3) }
+  let(:user_id) { users.first }
 
-    # it 'create a new user' do
-    #
-    #   expect(response).to have_http_status(:created)
-    #   expect(JSON.parse(response.body)).to include(expected_body)
-    # end
-    #
-    # it 'return entity with errors' do
-    #   user_params[:password] = nil
-    #   post api_v1_users_path, params: { user: user_params }
-    #
-    #   expected_error = { 'password' => ["can't be blank"] }
-    #
-    #   expect(response).to have_http_status(:unprocessable_entity)
-    #   expect(JSON.parse(response.body)).to eq(expected_error)
-    # end
+  describe 'GET users' do
+
+    before { get '/api/v1/users' }
+
+    it 'returns users' do
+      expect(json).not_to be_empty
+      expect(json.size).to eq(3)
+    end
+
+    it 'returns status code 200' do
+      get '/api/v1/users'
+      expect(response).to have_http_status(200)
+    end
 
   end
+
+  describe 'POST users' do
+    let(:valid_attributes) {{ email: 'foo@bar.com', password: 'foobar' }}
+
+    context 'when the request is valid' do
+      before { post '/api/v1/users', params: valid_attributes }
+
+      it 'creates a user' do
+        expect(json['email']).to eq('foo@bar.com')
+      end
+
+      it 'returns status code 201' do
+        expect(response).to have_http_status(201)
+      end
+    end
+
+    context 'when the request is invalid' do
+
+      before { post '/api/v1/users' }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns a validation failure message' do
+        expect(response.body).to match(/Validation failed: Created by can't be blank/)
+      end
+    end
+
+  end
+
 end
