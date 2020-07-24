@@ -37,17 +37,15 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
     context 'when the request is invalid' do
 
-      before { post '/api/v1/users' }
+      before { post '/api/v1/users',  params: { email: 'foo@bar.com', password: "" }  }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
       end
 
       it 'returns a validation failure message' do
-        expect(response.body).to match(/Validation failed: Created by can't be blank/)
+        expect(response.body).to match("{\"message\":\"Validation failed: Password can't be blank\"}")
       end
     end
-
-  end
-
+  end 
 end
