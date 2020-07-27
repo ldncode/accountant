@@ -47,5 +47,5 @@ RSpec.describe 'Api::V1::Users', type: :request do
         expect(response.body).to match("{\"message\":\"Validation failed: Password can't be blank\"}")
       end
     end
-  end 
+  end
 end
