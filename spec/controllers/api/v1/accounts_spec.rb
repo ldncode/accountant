@@ -6,7 +6,7 @@ RSpec.describe 'Accounts API', type: :request do
   let(:user_id) { user.id }
   let(:id) { accounts.first.id }
 
-  describe 'GET /api/v1/users/:user_id/accounts' do
+  describe 'GET accounts' do
     before { get "/api/v1/users/#{user_id}/accounts" }
 
     context 'when user exists' do
@@ -18,6 +18,42 @@ RSpec.describe 'Accounts API', type: :request do
         expect(json.size).to eq(3)
       end
     end
+
+    context 'when user does not exist' do
+      let(:user_id) { 0 }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+      it 'returns a not found message' do
+        expect(response.body).to match("{\"message\":\"Couldn't find User with 'id'=0\"}")
+      end
+    end
   end
 
+  describe 'GET account' do
+    before { get "/api/v1/users/#{user_id}/accounts/#{id}" }
+
+    context 'when user account exists' do
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'returns the account' do
+        expect(json['id']).to eq(id)
+      end
+    end
+
+    context 'when user account does not exist' do
+      let(:id) { 0 }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns a not found message' do
+        expect(response.body).to match("{\"message\":\"Couldn't find Account with 'id'=0 [WHERE \\\"accounts\\\".\\\"user_id\\\" = $1]\"}")
+      end
+    end
+   end
 end
