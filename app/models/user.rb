@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :account, dependent: :destroy
+  has_many :accounts, dependent: :destroy
 
   validates :email, :password, presence: true
 
