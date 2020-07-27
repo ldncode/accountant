@@ -11,9 +11,18 @@ class Api::V1::AccountsController < Api::V1::BaseController
     json_response(@account)
   end
 
+  def create
+    @account = @user.accounts.create!(account_params)
+    json_response(@account, :created)
+  end
+
   private
 
   def user_find
     @user = User.find(params[:user_id])
+  end
+
+  def account_params
+    params.permit(:nickname)
   end
 end

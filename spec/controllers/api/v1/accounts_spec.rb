@@ -55,5 +55,29 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response.body).to match("{\"message\":\"Couldn't find Account with 'id'=0 [WHERE \\\"accounts\\\".\\\"user_id\\\" = $1]\"}")
       end
     end
-   end
+  end
+
+  describe 'POST users accounts' do
+    let(:valid_attributes) { { nickname: 'Kasper' } }
+
+    context 'when request attributes are valid' do
+      before { post "/api/v1/users/#{user_id}/accounts", params: valid_attributes }
+
+      it 'returns status code 201' do
+        expect(response).to have_http_status(201)
+      end
+    end
+
+    context 'when an invalid request' do
+      before { post "/api/v1/users/#{user_id}/accounts", params: {} }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns a failure message' do
+        expect(response.body).to match("{\"message\":\"Validation failed: Nickname can't be blank\"}")
+      end
+    end
+  end
 end
