@@ -83,7 +83,6 @@ RSpec.describe 'Accounts API', type: :request do
 
   describe 'PUT account' do
     let(:valid_attributes) { { name: 'Kasper' } }
-
     before { put "/api/v1/users/#{user_id}/accounts/#{id}", params: valid_attributes }
 
     context 'when account exists' do

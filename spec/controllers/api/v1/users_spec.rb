@@ -2,10 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Users API', type: :request do
   let!(:users) { create_list(:user, 3) }
-  let(:user_id) { users.first }
+  let!(:user_id) { users.first.id }
 
   describe 'GET users' do
-
     before { get '/api/v1/users' }
 
     it 'returns users' do
@@ -36,7 +35,6 @@ RSpec.describe 'Users API', type: :request do
     end
 
     context 'when the request is invalid' do
-
       before { post '/api/v1/users',  params: { email: 'foo@bar.com', password: "" }  }
 
       it 'returns status code 422' do
@@ -50,8 +48,6 @@ RSpec.describe 'Users API', type: :request do
   end
 
   describe 'GET user' do
-    let(:user_id) { users.last.id }
-
     before { get "/api/v1/users/#{user_id}" }
 
     context 'when the record exists' do
@@ -79,7 +75,6 @@ RSpec.describe 'Users API', type: :request do
   end
 
   describe 'DELETE user' do
-    let(:user_id) { users.last.id }
     before { delete "/api/v1/users/#{user_id}" }
 
     it 'returns status code 204' do
