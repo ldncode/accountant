@@ -31,4 +31,29 @@ RSpec.describe 'Expenses API', type: :request do
       end
     end
   end
+
+  describe 'GET expenses' do
+    before { get "/api/v1/users/#{user_id}/accounts/#{account_id}/expenses" }
+
+    context 'when account exists' do
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'returns all account expenses' do
+        expect(json.size).to eq(3)
+      end
+    end
+
+    # context 'when user does not exist' do
+    #   let(:user_id) { 0 }
+    #
+    #   it 'returns status code 404' do
+    #     expect(response).to have_http_status(404)
+    #   end
+    #   it 'returns a not found message' do
+    #     expect(response.body).to match("{\"message\":\"Couldn't find User with 'id'=0\"}")
+    #   end
+    # end
+  end
 end

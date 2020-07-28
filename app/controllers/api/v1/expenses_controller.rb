@@ -2,6 +2,11 @@ class Api::V1::ExpensesController < Api::V1::BaseController
   before_action :user_find
   before_action :account_find
 
+  def index
+    @expenses = @account.expenses.all
+    json_response(@expenses)
+  end
+
   def create
     @expense = @account.expenses.create!(expense_params)
     json_response(@expense, :created)
