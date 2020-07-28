@@ -77,4 +77,13 @@ RSpec.describe 'Users API', type: :request do
       end
     end
   end
+
+  describe 'DELETE user' do
+    let(:user_id) { users.last.id }
+    before { delete "/api/v1/users/#{user_id}" }
+
+    it 'returns status code 204' do
+      expect(response).to have_http_status(204)
+    end
+  end
 end

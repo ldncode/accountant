@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
-
+  before_action :user_find, only: [:show, :destroy]
 
   def index
     @users = User.all
@@ -7,7 +7,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def show
-    @user = User.find(params[:id])
     json_response(@user)
   end
 
@@ -16,10 +15,18 @@ class Api::V1::UsersController < Api::V1::BaseController
     json_response(@user, :created)
   end
 
+  def destroy
+    @user.destroy
+  end
+
   private
 
   def user_params
     params.permit(:email, :password)
+  end
+
+  def user_find
+    @user = User.find(params[:id])
   end
 
 end
