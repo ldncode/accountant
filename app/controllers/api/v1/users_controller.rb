@@ -6,6 +6,11 @@ class Api::V1::UsersController < Api::V1::BaseController
     json_response(@users)
   end
 
+  def show
+    @user = User.find(params[:id])
+    json_response(@user)
+  end
+
   def create
     @user = User.create!(user_params)
     json_response(@user, :created)
