@@ -52,7 +52,7 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match("{\"message\":\"Couldn't find Account with 'id'=0 [WHERE \\\"accounts\\\".\\\"user_id\\\" = $1]\"}")
+        expect(response.body).to eq("{\"message\":\"Couldn't find Account with [WHERE \\\"accounts\\\".\\\"user_id\\\" = $1 AND \\\"accounts\\\".\\\"id\\\" = $2]\"}")
       end
     end
   end
@@ -77,6 +77,35 @@ RSpec.describe 'Accounts API', type: :request do
 
       it 'returns a failure message' do
         expect(response.body).to match("{\"message\":\"Validation failed: Nickname can't be blank\"}")
+      end
+    end
+  end
+
+  describe 'PUT account' do
+    let(:valid_attributes) { { name: 'Kasper' } }
+
+    before { put "/api/v1/users/#{user_id}/accounts/#{id}", params: valid_attributes }
+
+    context 'when account exists' do
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
+
+      it 'updates the account' do
+        updated_account = Account.find(id)
+        expect(updated_account.nickname).to match(/MyString/)
+      end
+    end
+
+    context 'when the account does not exist' do
+      let(:id) { 0 }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns a not found message' do
+        expect(response.body).to match("")
       end
     end
   end
