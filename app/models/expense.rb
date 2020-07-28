@@ -1,5 +1,5 @@
 class Expense < ApplicationRecord
   belongs_to :account
 
-  validates :title, presence: true
+  validates :title, :value,  presence: true
 end
