@@ -45,15 +45,15 @@ RSpec.describe 'Expenses API', type: :request do
       end
     end
 
-    # context 'when user does not exist' do
-    #   let(:user_id) { 0 }
-    #
-    #   it 'returns status code 404' do
-    #     expect(response).to have_http_status(404)
-    #   end
-    #   it 'returns a not found message' do
-    #     expect(response.body).to match("{\"message\":\"Couldn't find User with 'id'=0\"}")
-    #   end
-    # end
+    context 'when account does not exist' do
+      let(:account_id) { 0 }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+      it 'returns a not found message' do
+        expect(response.body).to match("{\"message\":\"Couldn't find Account with 'id'=0 [WHERE \\\"accounts\\\".\\\"user_id\\\" = $1]\"}")
+      end
+    end
   end
 end
