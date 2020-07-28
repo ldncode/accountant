@@ -109,4 +109,12 @@ RSpec.describe 'Accounts API', type: :request do
       end
     end
   end
+
+  describe 'DELETE account' do
+    before { delete "/api/v1/users/#{user_id}/accounts/#{id}" }
+
+    it 'returns status code 204' do
+      expect(response).to have_http_status(204)
+    end
+  end
 end

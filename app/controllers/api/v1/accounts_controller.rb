@@ -1,6 +1,6 @@
 class Api::V1::AccountsController < Api::V1::BaseController
   before_action :user_find
-  before_action :set_user_account, only: [:show, :update]
+  before_action :set_user_account, only: [:show, :update, :destroy]
 
   def index
     json_response(@user.accounts)
@@ -17,6 +17,11 @@ class Api::V1::AccountsController < Api::V1::BaseController
 
   def update
     @account.update(account_params)
+    head :no_content
+  end
+
+  def destroy
+    @account.destroy
     head :no_content
   end
 
