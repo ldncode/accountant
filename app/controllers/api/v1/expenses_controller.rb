@@ -1,7 +1,7 @@
 class Api::V1::ExpensesController < Api::V1::BaseController
   before_action :user_find
   before_action :account_find
-  before_action :set_account_expense, only: [:show, :update]
+  before_action :set_account_expense, only: [:show, :update, :destroy]
 
   def index
     @expenses = @account.expenses.all
@@ -19,6 +19,10 @@ class Api::V1::ExpensesController < Api::V1::BaseController
 
   def update
     @expense.update(expense_params)
+  end
+
+  def destroy
+    @expense.destroy
   end
 
   private
