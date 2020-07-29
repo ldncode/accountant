@@ -1,7 +1,7 @@
 class Api::V1::ExpensesController < Api::V1::BaseController
   before_action :user_find
   before_action :account_find
-  before_action :set_account_expense, only: [:show]
+  before_action :set_account_expense, only: [:show, :update]
 
   def index
     @expenses = @account.expenses.all
@@ -15,6 +15,10 @@ class Api::V1::ExpensesController < Api::V1::BaseController
   def create
     @expense = @account.expenses.create!(expense_params)
     json_response(@expense, :created)
+  end
+
+  def update
+    @expense.update(expense_params)
   end
 
   private

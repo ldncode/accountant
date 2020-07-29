@@ -82,4 +82,32 @@ RSpec.describe 'Expenses API', type: :request do
       end
     end
   end
+
+  describe 'PUT expense' do
+    let(:valid_attributes) { { title: 'money', value: 200 } }
+    before { put "/api/v1/users/#{user_id}/accounts/#{account_id}/expenses/#{id}", params: valid_attributes }
+
+    context 'when expense exists' do
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
+
+      it 'updates the expense' do
+        updated_expense = Expense.find(id)
+        expect(updated_expense.title).to match(/money/)
+      end
+    end
+
+    context 'when the expense does not exist' do
+      let(:id) { 0 }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns a not found message' do
+        expect(response.body).to match("")
+      end
+    end
+  end
 end
