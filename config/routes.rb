@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:index, :show, :create, :destroy] do
         resources :accounts do
-          resources :expenses, shallow: true
+          resources :expenses
         end
       end
     end

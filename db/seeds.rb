@@ -11,3 +11,4 @@ require 'faker'
               password: Faker::Internet.password(min_length: 6))
 end
 
+
