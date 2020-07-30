@@ -23,7 +23,7 @@ gem 'puma', '~> 4.1'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'awesome_print', '~> 1.8'
 gem 'pry', '~> 0.12.2'
-
+gem 'sidekiq'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
@@ -45,6 +45,7 @@ group :test do
   gem 'shoulda-matchers', '~> 4.0'
   gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
   gem 'database_cleaner'
+  gem 'rspec-sidekiq'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
