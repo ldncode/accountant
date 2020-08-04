@@ -24,6 +24,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'awesome_print', '~> 1.8'
 gem 'pry', '~> 0.12.2'
 gem 'sidekiq'
+gem 'whenever', require: false
+
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
